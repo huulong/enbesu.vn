@@ -1068,31 +1068,6 @@ function _checkout($titlecheckout) {
             </div>
         </div>
     </section>
-
-    <section class="checkout spad bg-light py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <h4 class="mb-4">Thông tin thanh toán</h4>
-                    <div class="payment-summary mt-4">
-                        <div class="payment-summary-item d-flex justify-content-between">
-                            <span>Tổng tiền:</span>
-                            <span class="font-weight-bold">' . number_format($total, 0, ',', '.') . '<sup>đ</sup></span>
-                        </div>
-                        <div class="payment-summary-item d-flex justify-content-between">
-                            <span>Phí dịch vụ (2%):</span>
-                            <span class="font-weight-bold">' . number_format($totalWithFee - $total, 0, ',', '.') . '<sup>đ</sup></span>
-                        </div>
-                        <div class="payment-summary-item d-flex justify-content-between">
-                            <span class="text-danger">Tổng thanh toán:</span>
-                            <span class="font-weight-bold text-danger">' . number_format($totalWithFee, 0, ',', '.') . '<sup>đ</sup></span>
-                        </div>
-                    </div>
-                    <a href="thanhtoanmomo.php" class="btn btn-success btn-block mt-4">Thanh toán qua MoMo</a>
-                </div>
-            </div>
-        </div>
-    </section>
     ';
 
     echo $s;

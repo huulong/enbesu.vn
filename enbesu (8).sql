@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 17, 2024 lúc 02:58 PM
+-- Thời gian đã tạo: Th12 23, 2024 lúc 03:21 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -43,7 +43,7 @@ CREATE TABLE `article` (
 --
 
 CREATE TABLE `baigioithieu` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `pagraph` text NOT NULL
@@ -56,11 +56,11 @@ CREATE TABLE `baigioithieu` (
 --
 
 CREATE TABLE `baiviet` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `pagraph` text NOT NULL,
-  `id_blog` int(100) DEFAULT NULL,
+  `id_blog` int(11) DEFAULT NULL,
   `status` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -71,7 +71,7 @@ CREATE TABLE `baiviet` (
 --
 
 CREATE TABLE `banner` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -80,7 +80,7 @@ CREATE TABLE `banner` (
 --
 
 INSERT INTO `banner` (`id`, `image`) VALUES
-(1, 'Banner 01.jpg'),
+(1, 'banner5.jpg'),
 (8, 'banner10.jpg'),
 (9, 'banner1.jpg');
 
@@ -91,12 +91,20 @@ INSERT INTO `banner` (`id`, `image`) VALUES
 --
 
 CREATE TABLE `blog` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `pagaph` text NOT NULL,
   `day` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `blog`
+--
+
+INSERT INTO `blog` (`id`, `image`, `title`, `pagaph`, `day`) VALUES
+(1, 'banner1.jpg', 'Bột ngũ cốc dinh dưỡng là gì?', 'Bột ngũ cốc là hỗn hợp bột xay mịn của những loại ngũ cốc, hạt và đậu giàu dinh dưỡng.....', '2024-12-11'),
+(2, 'banner10.jpg', 'Giá trị dinh dưỡng và lợi ích của bột ngũ cốc dinh dưỡng', 'Tùy theo từng loại sản phẩm ngũ cốc mà bạn chọn mua, thành phần dinh dưỡng và lượng calo mà bột ngũ cốc cung cấp.....', '2024-12-19');
 
 -- --------------------------------------------------------
 
@@ -125,7 +133,7 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `categories_items` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -151,7 +159,7 @@ CREATE TABLE `contacts` (
 --
 
 CREATE TABLE `dangky` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -169,7 +177,7 @@ INSERT INTO `dangky` (`id`, `image`) VALUES
 --
 
 CREATE TABLE `dangnhap` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -187,7 +195,7 @@ INSERT INTO `dangnhap` (`id`, `image`) VALUES
 --
 
 CREATE TABLE `haianh` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -206,7 +214,7 @@ INSERT INTO `haianh` (`id`, `image`) VALUES
 --
 
 CREATE TABLE `info` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` decimal(10,3) NOT NULL,
@@ -259,18 +267,22 @@ CREATE TABLE `orders` (
   `customer_address` text NOT NULL,
   `note` text DEFAULT NULL,
   `total_amount` decimal(10,3) NOT NULL,
-  `status` enum('Pending','Processing','Completed','Cancelled') DEFAULT 'Pending',
+  `status` varchar(50) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `payment_method` varchar(50) DEFAULT 'COD',
+  `payment_status` varchar(50) DEFAULT 'Chưa thanh toán'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `orders`
 --
 
-INSERT INTO `orders` (`id`, `customer_name`, `customer_phone`, `customer_address`, `note`, `total_amount`, `status`, `created_at`, `user_id`) VALUES
-(124, 'NGUYỄN PHƯƠNG ĐÔNG', '0369287898', 'CÔNG TY TNHH TÔN NAM KIM PHÚ MỸ', 'GIAO TẠI NKPM', 84000.000, 'Pending', '2024-11-30 04:08:04', 1),
-(132, 'Okvip', '0366983678', 'Okvip', 'Okvip', 344000.000, 'Pending', '2024-12-09 15:29:52', 1);
+INSERT INTO `orders` (`id`, `customer_name`, `customer_phone`, `customer_address`, `note`, `total_amount`, `status`, `created_at`, `user_id`, `payment_method`, `payment_status`) VALUES
+(124, 'NGUYỄN PHƯƠNG ĐÔNG', '0369287898', 'CÔNG TY TNHH TÔN NAM KIM PHÚ MỸ', 'GIAO TẠI NKPM', 84000.000, 'Pending', '2024-11-30 04:08:04', 1, 'COD', 'Chưa thanh toán'),
+(132, 'Okvip', '0366983678', 'Okvip', 'Okvip', 344000.000, 'Pending', '2024-12-09 15:29:52', 1, 'COD', 'Chưa thanh toán'),
+(182, 'Lê Văn Hậu', '0367722389', 'Thôn Thống Nhất-Hải Ba-Hải Lăng-Quảng Trị', '', 105000.000, 'Cancelled', '2024-12-19 00:22:16', 13, 'COD', 'Chưa thanh toán'),
+(183, 'Lê Văn Hậu', '0367722389', 'Thôn Thống Nhất-Hải Ba-Hải Lăng-Quảng Trị', '', 574000.000, 'Cancelled', '2024-12-19 05:24:21', 13, 'COD', 'Chưa thanh toán');
 
 -- --------------------------------------------------------
 
@@ -308,7 +320,7 @@ CREATE TABLE `products` (
   `image` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `price` decimal(10,3) NOT NULL DEFAULT 0.000,
   `price_old` decimal(10,3) NOT NULL,
-  `quantity` int(100) NOT NULL DEFAULT 0,
+  `quantity` int(11) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `id_category` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -350,7 +362,7 @@ INSERT INTO `products` (`id`, `name`, `image`, `price`, `price_old`, `quantity`,
 --
 
 CREATE TABLE `the` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `pagraph` text NOT NULL,
@@ -375,7 +387,7 @@ INSERT INTO `the` (`id`, `image`, `title`, `pagraph`, `id_the`, `status`) VALUES
 --
 
 CREATE TABLE `thethanhvien` (
-  `id` int(100) NOT NULL,
+  `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `pagraph` text NOT NULL,
@@ -415,7 +427,8 @@ INSERT INTO `users` (`id`, `name`, `phone`, `password`, `role`) VALUES
 (12, 'Quang', '0368929395', '123', ''),
 (13, 'lê hậu', '0367722388', '123', ''),
 (14, 'Thanh Hiền ', '0812160274', 'Hienyt276', ''),
-(15, 'Okvip', '0366980764', '12345678', '');
+(15, 'Okvip', '0366980764', '12345678', ''),
+(16, 'Phùng Hữu Long', '0382333246', 'L@ng1998', '');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -551,25 +564,25 @@ ALTER TABLE `article`
 -- AUTO_INCREMENT cho bảng `baigioithieu`
 --
 ALTER TABLE `baigioithieu`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `baiviet`
 --
 ALTER TABLE `baiviet`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT cho bảng `banner`
 --
 ALTER TABLE `banner`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `blog`
 --
 ALTER TABLE `blog`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -581,7 +594,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `categories_items`
 --
 ALTER TABLE `categories_items`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `contacts`
@@ -593,37 +606,37 @@ ALTER TABLE `contacts`
 -- AUTO_INCREMENT cho bảng `dangky`
 --
 ALTER TABLE `dangky`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `dangnhap`
 --
 ALTER TABLE `dangnhap`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `haianh`
 --
 ALTER TABLE `haianh`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `info`
 --
 ALTER TABLE `info`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
@@ -635,19 +648,19 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT cho bảng `the`
 --
 ALTER TABLE `the`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `thethanhvien`
 --
 ALTER TABLE `thethanhvien`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

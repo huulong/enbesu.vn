@@ -19,8 +19,8 @@ require_once 'app/controller/thethanhvienController.php';
 require_once 'app/controller/posterController.php';
 require_once 'app/controller/infoController.php';
 
-define('APPURL_ADMIN', '/enbesu/admin/');
-define('APPURL', '/enbesu/');
+define('APPURL_ADMIN', '/duan/admin/');
+define('APPURL', '/duan/');
 
 $url = $_SERVER['REQUEST_URI'];
 $url = explode('/', trim($url, '/')); 
