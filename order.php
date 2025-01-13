@@ -2,22 +2,22 @@
 ob_start();
 require_once 'inc/database.php';
 
-// Khởi động session
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Kiểm tra người dùng đã đăng nhập chưa
+
 if (!isset($_SESSION['user'])) {
     die('Vui lòng đăng nhập để xem đơn hàng.');
 }
 $user_id = $_SESSION['user']['id'];
 
-// Xử lý hủy đơn hàng
+
 if (isset($_POST['cancel_order']) && isset($_POST['order_id'])) {
     $order_id = $_POST['order_id'];
 
-    // Kiểm tra trạng thái đơn hàng có phải 'Pending' không
+
     $check_query = "SELECT status FROM orders WHERE id = ? AND user_id = ? AND status = 'Pending'";
     $db = Database::getConnection();
     $check_stmt = $db->prepare($check_query);
@@ -47,7 +47,7 @@ _navbar();
 
 $db = Database::getConnection();
 
-// Truy vấn danh sách đơn hàng kèm tên sản phẩm
+
 $query = "
 SELECT 
     o.id, 
@@ -78,7 +78,7 @@ $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Thông báo khi có hủy đơn hàng
+
 if (isset($_SESSION['message'])) {
     echo '<div class="container mt-3">
             <div class="alert alert-' . $_SESSION['message_type'] . ' alert-dismissible fade show" role="alert">
@@ -90,7 +90,7 @@ if (isset($_SESSION['message'])) {
     unset($_SESSION['message_type']);
 }
 
-// Hiển thị danh sách đơn hàng
+
 echo '
 <div class="container mt-lg-auto">
     <div class="row">
@@ -119,9 +119,8 @@ echo '
                             </thead>
                             <tbody>';
 
-// Vòng lặp hiển thị dữ liệu đơn hàng
 while ($row = $result->fetch_assoc()) {
-    // Xử lý trạng thái đơn hàng
+  
     $statusClass = '';
     $displayStatus = '';
     switch($row['status']) {
@@ -142,7 +141,6 @@ while ($row = $result->fetch_assoc()) {
             $displayStatus = $row['status'];
     }
 
-    // Xử lý trạng thái thanh toán
     $payment_status_class = '';
     switch($row['payment_status']) {
         case 'Đã thanh toán':
@@ -155,7 +153,7 @@ while ($row = $result->fetch_assoc()) {
             $payment_status_class = 'badge bg-secondary';
     }
 
-    // Hiển thị thông tin từng đơn hàng
+
     echo '<tr>
         <td>' . $row['id'] . '</td>
         <td>' . date('d/m/Y H:i', strtotime($row['created_at'])) . '</td>
@@ -168,8 +166,7 @@ while ($row = $result->fetch_assoc()) {
         <td><span class="' . $payment_status_class . '">' . (isset($row['payment_status']) ? htmlspecialchars($row['payment_status']) : '') . '</span></td>
         <td><span class="' . $statusClass . '">' . htmlspecialchars($displayStatus) . '</span></td>
         <td>';
-    
-    // Hiển thị nút hủy và chi tiết
+
     if ($row['status'] === 'Pending' && $row['payment_status'] === 'Chưa thanh toán') {
         echo '<div class="btn-group" role="group">
                 <form action="cancel_order.php" method="POST" class="d-inline" 
@@ -192,7 +189,7 @@ while ($row = $result->fetch_assoc()) {
     </tr>';
 }
 
-// Nếu không có đơn hàng
+
 if ($result->num_rows == 0) {
     echo '<tr><td colspan="11" class="text-center">Bạn chưa có đơn hàng nào</td></tr>';
 }

@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -19,8 +18,8 @@ require_once 'app/controller/thethanhvienController.php';
 require_once 'app/controller/posterController.php';
 require_once 'app/controller/infoController.php';
 
-define('APPURL_ADMIN', '/duan/admin/');
-define('APPURL', '/duan/');
+define('APPURL_ADMIN', '/enbesu.vn/admin/');
+define('APPURL', '/enbesu.vn/');
 
 $url = $_SERVER['REQUEST_URI'];
 $url = explode('/', trim($url, '/')); 
@@ -35,7 +34,6 @@ if (!isset($_SESSION['user-admin'])) {
         header('Location:' . APPURL_ADMIN . 'login');
     }
 }
-
 
 
 

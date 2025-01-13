@@ -66,6 +66,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $order_id = $db->insert_id;
 
+        // Insert order items
+        $stmt = $db->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
+        if (!$stmt) {
+            throw new Exception($db->error);
+        }
+
+        foreach ($cart as $item) {
+            $product_data = is_object($item) ? $item : json_decode($item);
+            if ($product_data) {
+                $product_id = $product_data->id;
+                $quantity = $product_data->quantity;
+                $price = $product_data->price * 1000;
+                
+                $stmt->bind_param("iiid", $order_id, $product_id, $quantity, $price);
+                if (!$stmt->execute()) {
+                    throw new Exception($stmt->error);
+                }
+            }
+        }
+
         unset($_SESSION['cart']);
         unset($_SESSION['total']);
         unset($_SESSION['order_info']);
